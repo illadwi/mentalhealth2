@@ -114,26 +114,34 @@ class YogaScreen extends StatelessWidget {
   Widget _buildYogaOption(
       BuildContext context, String label, IconData icon, Function() onTap) {
     return Padding(
-      padding: const EdgeInsets.all(10),
-      child: SizedBox(
-        width: double.infinity,
-        child: Material(
-          color: const Color.fromARGB(43, 68, 63, 144),
-          borderRadius: BorderRadius.circular(10),
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    label,
-                    style: const TextStyle(color: Colors.black, fontSize: 25),
-                  ),
-                  Icon(icon, color: Colors.black),
-                ],
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3), // Position shadow
               ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 68, 63, 144), fontSize: 25),
+                ),
+                Icon(icon, color: const Color.fromARGB(255, 68, 63, 144)),
+              ],
             ),
           ),
         ),
@@ -259,10 +267,12 @@ class _TimerScreenState extends State<TimerScreen> {
                     child: Text(
                       'Duduk tenang, pejamkan mata, berdiam diri, dan fokus pada keheningan tanpa merespon pikiran yang muncul.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 68, 63, 144)),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 80),
                   Column(
                     children: [
                       Text(
@@ -270,21 +280,24 @@ class _TimerScreenState extends State<TimerScreen> {
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 68, 63, 144),
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 80),
                       const Icon(
                         Icons.access_time,
                         size: 100,
+                        color: Color.fromARGB(255, 68, 63, 144),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 90),
+                  const SizedBox(height: 200),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.refresh, size: 40),
+                        icon: const Icon(Icons.refresh,
+                            size: 40, color: Color.fromARGB(255, 68, 63, 144)),
                         onPressed: resetTimer,
                       ),
                       const SizedBox(width: 20),
@@ -297,14 +310,16 @@ class _TimerScreenState extends State<TimerScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 32, vertical: 16),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(
+                                25), // Mengurangi radius untuk mengurangi oval
                           ),
                         ),
                         child: Text(isRunning ? 'Pause' : 'Play'),
                       ),
                       const SizedBox(width: 20),
                       IconButton(
-                        icon: const Icon(Icons.volume_up, size: 40),
+                        icon: const Icon(Icons.volume_up,
+                            size: 40, color: Color.fromARGB(255, 68, 63, 144)),
                         onPressed: increaseVolume,
                       ),
                     ],

@@ -83,20 +83,33 @@ class _AkunScreenState extends State<AkunScreen> {
                 _buildTextField('Nama', namaController, false),
                 _buildTextField('Email', emailController, false),
                 _buildTextField('Password', passwordController, true),
-                const SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () => _updateUserData(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 68, 63, 144),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                      textStyle:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    child: const Text(
-                      'Simpan',
-                      style: TextStyle(color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Center(
+                    child: IntrinsicWidth(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 68, 63, 144),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: InkWell(
+                          onTap: () => _updateUserData(context),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 20),
+                            child: Center(
+                              child: Text(
+                                "Simpan",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -120,30 +133,51 @@ class _AkunScreenState extends State<AkunScreen> {
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
+              color: Color.fromARGB(255, 68, 63, 144), // Warna font berubah
             ),
           ),
           const SizedBox(height: 8),
-          TextField(
-            obscureText: isPassword && !isPasswordVisible,
-            controller: controller,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-              suffixIcon: isPassword
-                  ? IconButton(
-                      icon: Icon(
-                        isPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
-                    )
-                  : null,
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                color: const Color.fromARGB(43, 68, 63, 144), // Border seperti hasil kuisioner
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3), // Shadow effect
+                ),
+              ],
+            ),
+            child: TextField(
+              obscureText: isPassword && !isPasswordVisible,
+              controller: controller,
+              style: const TextStyle(
+                color: Color.fromARGB(175, 0, 0, 0), // Warna teks yang sudah diisi
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                suffixIcon: isPassword
+                    ? IconButton(
+                        icon: Icon(
+                          isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                      )
+                    : null,
+              ),
             ),
           ),
         ],

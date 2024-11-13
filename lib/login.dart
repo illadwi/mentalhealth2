@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/home.dart';
-import 'lupasandi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'signup.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -10,6 +10,11 @@ class LoginScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   LoginScreen({super.key});
+
+  Future<void> saveLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+  }
 
   Future<void> loginUser(BuildContext context) async {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
@@ -20,19 +25,18 @@ class LoginScreen extends StatelessWidget {
     }
 
     try {
-      // Attempt to sign in the user with Firebase
-      final UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(
+      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
 
-      // Show success message and navigate to HomeScreen
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Berhasil Masuk")),
       );
+
       if (userCredential.user != null) {
+        await saveLoginStatus();  // Simpan status login
         Navigator.pushReplacement(
           // ignore: use_build_context_synchronously
           context,
@@ -49,13 +53,12 @@ class LoginScreen extends StatelessWidget {
         message = e.message ?? 'Login failed';
       }
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
     } catch (e) {
-      // Handle any other errors
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('An unexpected error occurred')));
+        const SnackBar(content: Text('An unexpected error occurred')),
+      );
     }
   }
 
@@ -135,29 +138,7 @@ class LoginScreen extends StatelessWidget {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 12, top: 1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LupaSandiScreen()),
-                        );
-                      },
-                      child: const Text(
-                        "Lupa Kata Sandi?",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 68, 63, 144),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: SizedBox(
@@ -192,7 +173,7 @@ class LoginScreen extends StatelessWidget {
                   const Text(
                     "Belum mempunyai akun?",
                     style: TextStyle(
-                      color: Color.fromARGB(79, 68, 63, 144),
+                      color: Color.fromARGB(79, 11, 8, 53),
                       fontSize: 16,
                     ),
                   ),

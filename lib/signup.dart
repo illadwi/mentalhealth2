@@ -1,12 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'home.dart';
+import 'package:myapp/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
+
+  Future<void> saveLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+  }
 
   Future<void> signup(
       BuildContext context, String email, String password) async {
@@ -14,7 +19,6 @@ class SignupScreen extends StatelessWidget {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      // Save user data to Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user?.uid)
@@ -23,7 +27,9 @@ class SignupScreen extends StatelessWidget {
         'createdAt': DateTime.now(),
       });
 
-      // Show success popup
+      // Simpan status login setelah signup berhasil
+      await saveLoginStatus();
+
       showDialog(
         // ignore: use_build_context_synchronously
         context: context,
@@ -45,7 +51,6 @@ class SignupScreen extends StatelessWidget {
         ),
       );
     } catch (e) {
-      // Show error if signup fails
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error saat signup: $e")),
@@ -109,7 +114,6 @@ class SignupScreen extends StatelessWidget {
                     border: OutlineInputBorder(),
                     label: Text("Email"),
                   ),
-                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
               Padding(
@@ -128,9 +132,7 @@ class SignupScreen extends StatelessWidget {
                             passToggle.value = !passToggle.value;
                           },
                           child: Icon(
-                            value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                            value ? Icons.visibility_off : Icons.visibility,
                           ),
                         ),
                       ),
@@ -154,9 +156,7 @@ class SignupScreen extends StatelessWidget {
                             confirmPassToggle.value = !confirmPassToggle.value;
                           },
                           child: Icon(
-                            value
-                                ? Icons.visibility_off
-                                : Icons.visibility,
+                            value ? Icons.visibility_off : Icons.visibility,
                           ),
                         ),
                       ),
@@ -173,38 +173,27 @@ class SignupScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     child: InkWell(
                       onTap: () {
-                        if (emailController.text.isEmpty ||
-                            passwordController.text.isEmpty ||
-                            confirmPasswordController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Semua field harus diisi")),
-                          );
-                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(emailController.text)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Email tidak valid")),
-                          );
-                        } else if (passwordController.text !=
+                        if (passwordController.text ==
                             confirmPasswordController.text) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    "Password dan konfirmasi password tidak cocok")),
-                          );
-                        } else {
                           signup(context, emailController.text,
                               passwordController.text);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Password tidak cocok")),
+                          );
                         }
                       },
                       child: const Padding(
                         padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                         child: Center(
                           child: Text(
                             "Daftar",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -217,18 +206,18 @@ class SignupScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Sudah mempunyai akun?",
+                    "Sudah punya akun?",
                     style: TextStyle(
-                      color: Color.fromARGB(79, 68, 63, 144),
+                      color: Color.fromARGB(79, 11, 8, 53),
                       fontSize: 16,
                     ),
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
                     },
                     child: const Text(
                       "Masuk",

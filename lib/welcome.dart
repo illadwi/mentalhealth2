@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Ini waktunya',
+              'Ini Waktunya',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -30,7 +30,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             const Text(
-              'lebih baik',
+              'Lebih Baik',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

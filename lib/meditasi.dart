@@ -3,7 +3,7 @@ import 'package:myapp/setting.dart';
 import 'package:myapp/silence.dart';
 import 'package:myapp/yoga.dart';
 import 'aturnafas.dart';
-import 'home.dart'; 
+import 'home.dart';
 
 class MeditasiScreen extends StatelessWidget {
   const MeditasiScreen({super.key});
@@ -41,9 +41,19 @@ class MeditasiScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SizedBox(
                   width: double.infinity,
-                  child: Material(
-                    color: const Color.fromARGB(43, 68, 63, 144),
-                    borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -52,14 +62,13 @@ class MeditasiScreen extends StatelessWidget {
                                 builder: (context) => const SilenceScreen()));
                       },
                       child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Silence",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 68, 63, 144),
                               fontSize: 25,
                             ),
                           ),
@@ -75,9 +84,19 @@ class MeditasiScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SizedBox(
                   width: double.infinity,
-                  child: Material(
-                    color: const Color.fromARGB(43, 68, 63, 144),
-                    borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -86,14 +105,13 @@ class MeditasiScreen extends StatelessWidget {
                                 builder: (context) => const AturNafasScreen()));
                       },
                       child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Atur Nafas",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 68, 63, 144),
                               fontSize: 25,
                             ),
                           ),
@@ -109,9 +127,19 @@ class MeditasiScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SizedBox(
                   width: double.infinity,
-                  child: Material(
-                    color: const Color.fromARGB(43, 68, 63, 144),
-                    borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -120,14 +148,13 @@ class MeditasiScreen extends StatelessWidget {
                                 builder: (context) => const YogaScreen()));
                       },
                       child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             "Yoga",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 68, 63, 144),
                               fontSize: 25,
                             ),
                           ),
@@ -151,9 +178,8 @@ class MeditasiScreen extends StatelessWidget {
                 color: Color.fromARGB(43, 68, 63, 144),
               ),
               onPressed: () {
-                // Navigasi ke halaman utama
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const HomeScreen()));
               },
             ),
             IconButton(
@@ -162,8 +188,8 @@ class MeditasiScreen extends StatelessWidget {
                 color: Color.fromARGB(43, 68, 63, 144),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SettingScreen()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const SettingScreen()));
               },
             ),
           ],

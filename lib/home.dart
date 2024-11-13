@@ -4,9 +4,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/kuisioner.dart';
 import 'package:myapp/meditasi.dart';
 import 'package:myapp/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'login.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  Future<void> logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    Navigator.pushReplacement(
+      // ignore: use_build_context_synchronously
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
 
   @override
   // ignore: library_private_types_in_public_api
@@ -16,12 +28,26 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
   String? username;
-  String? selectedEmotion; // Variable to track the selected emotion
+  String? selectedEmotion;
 
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     _fetchUsername();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (!isLoggedIn) {
+      Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
   }
 
   Future<void> _fetchUsername() async {
@@ -48,8 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-              20.0, 40.0, 20.0, 20.0), // Menambahkan padding atas lebih besar
+          padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
           child: Column(
             children: [
               const SizedBox(height: 10),
@@ -93,8 +118,16 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(43, 68, 63, 144),
-                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3), // Position shadow
+                    ),
+                  ],
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Column(
@@ -103,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Text(
                       'Artikel & Berita',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 68, 63, 144),
                         decoration: TextDecoration.underline,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -154,9 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icons.home,
                 color: Color.fromARGB(255, 68, 63, 144),
               ),
-              onPressed: () {
-                // Aksi ketika tombol "Home" ditekan
-              },
+              onPressed: () {},
             ),
             IconButton(
               icon: const Icon(
@@ -182,8 +213,16 @@ class _HomeScreenState extends State<HomeScreen> {
     String greeting = _getGreetingMessage();
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(43, 68, 63, 144),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -193,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             greeting,
             style: const TextStyle(
-              color: Colors.black,
+              color: Color.fromARGB(255, 68, 63, 144),
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -201,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 8),
           const Text(
             'Bagaimana perasaanmu?',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 68, 63, 144)),
           ),
           const SizedBox(height: 10),
           Row(
@@ -237,8 +276,6 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           selectedEmotion = emotion;
         });
-        // ignore: avoid_print
-        print('Clicked on $emotion');
       },
       child: Column(
         children: [
@@ -247,10 +284,10 @@ class _HomeScreenState extends State<HomeScreen> {
             size: isSelected ? 50 : 40,
             color: isSelected
                 ? const Color.fromARGB(255, 68, 63, 144)
-                : Colors.black,
+                : const Color.fromARGB(113, 11, 8, 53),
           ),
           const SizedBox(height: 5),
-          Text(emotion),
+          Text(emotion, style: const TextStyle(color: Color.fromARGB(255, 68, 63, 144))),
         ],
       ),
     );
@@ -261,19 +298,20 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Row(
         children: [
-          const Icon(Icons.article, size: 40),
+          const Icon(Icons.article, size: 40, color: Color.fromARGB(255, 68, 63, 144)),
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 68, 63, 144)),
               ),
               Text(
                 subtitle,
                 overflow: TextOverflow.fade,
                 maxLines: 2,
+                style: const TextStyle(color: Color.fromARGB(255, 68, 63, 144)),
               ),
             ],
           ),
@@ -293,15 +331,27 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(43, 68, 63, 144),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Icon(icon, size: 30),
+            Icon(
+              icon,
+              size: 30,
+              color: const Color.fromARGB(255, 68, 63, 144),
+            ),
             const SizedBox(height: 5),
-            Text(label),
+            Text(label, style: const TextStyle(color: Color.fromARGB(255, 68, 63, 144))),
           ],
         ),
       ),

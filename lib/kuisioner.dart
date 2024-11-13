@@ -3,12 +3,12 @@ import 'package:myapp/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'hasilkuisioner.dart';
 import 'home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class KuisionerScreen extends StatefulWidget {
   const KuisionerScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _KuisionerScreenState createState() => _KuisionerScreenState();
 }
 
@@ -29,8 +29,8 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
             color: Color.fromARGB(255, 68, 63, 144),
           ),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
           },
         ),
         title: const Text(
@@ -64,8 +64,10 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                 color: Color.fromARGB(43, 68, 63, 144),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
             ),
             IconButton(
@@ -74,8 +76,10 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                 color: Color.fromARGB(43, 68, 63, 144),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SettingScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingScreen()));
               },
             ),
           ],
@@ -87,13 +91,15 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
   Widget _buildKuisionerOptions(BuildContext context) {
     return Column(
       children: [
+        // Option 1: PHQ-9 Questionnaire
         Padding(
           padding: const EdgeInsets.all(10),
           child: SizedBox(
             width: double.infinity,
             child: Material(
-              color: const Color.fromARGB(43, 68, 63, 144),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
+              elevation: 5,
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -110,7 +116,7 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                       "9. Apakah Anda memiliki pikiran tentang melukai diri sendiri atau merasa lebih baik jika tidak hidup?",
                       "10. Seberapa sering Anda merasa cemas atau takut tanpa alasan yang jelas, dan merasa tidak bisa mengontrol perasaan tersebut?"
                     ];
-                    _questionnaireTitle = 'Pertanyaan PHQ-9';
+                    _questionnaireTitle = 'Pertanyaan PHQ (Patient Health Questionnaire)';
                   });
                 },
                 child: const Padding(
@@ -120,7 +126,7 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                     child: Text(
                       "Kuisioner PHQ-9",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 68, 63, 144),
                         fontSize: 20,
                       ),
                     ),
@@ -130,13 +136,15 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
             ),
           ),
         ),
+        // Option 2: Depression Questionnaire
         Padding(
           padding: const EdgeInsets.all(10),
           child: SizedBox(
             width: double.infinity,
             child: Material(
-              color: const Color.fromARGB(43, 68, 63, 144),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
+              elevation: 5,
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -163,7 +171,7 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                     child: Text(
                       "Kuisioner Depresi",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 68, 63, 144),
                         fontSize: 20,
                       ),
                     ),
@@ -185,7 +193,8 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
           padding: const EdgeInsets.all(12),
           child: Text(
             _questionnaireTitle,
-            style: const TextStyle(color: Colors.black, fontSize: 20),
+            style: const TextStyle(
+                color: Color.fromARGB(255, 68, 63, 144), fontSize: 20),
           ),
         ),
         ..._currentQuestions.asMap().entries.map((entry) {
@@ -195,8 +204,16 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
             margin: const EdgeInsets.symmetric(vertical: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(43, 68, 63, 144),
-              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3), // Position shadow
+                ),
+              ],
               border: Border.all(
                 color: const Color.fromARGB(255, 68, 63, 144),
                 width: 1,
@@ -208,7 +225,7 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                 Text(
                   question,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 68, 63, 144),
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -224,7 +241,12 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                           _answers[index] = value!;
                         });
                       },
-                      title: const Text("Tidak Pernah"),
+                      title: const Text(
+                        "Tidak Pernah",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 68, 63, 144),
+                        ),
+                      ),
                     ),
                     RadioListTile<int>(
                       value: 1,
@@ -234,7 +256,12 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                           _answers[index] = value!;
                         });
                       },
-                      title: const Text("Pernah"),
+                      title: const Text(
+                        "Pernah",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 68, 63, 144),
+                        ),
+                      ),
                     ),
                     RadioListTile<int>(
                       value: 2,
@@ -244,36 +271,43 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
                           _answers[index] = value!;
                         });
                       },
-                      title: const Text("Sering"),
+                      title: const Text(
+                        "Sering",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 68, 63, 144),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
           );
-        }),
-        const SizedBox(height: 20),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton(
-            onPressed: () async {
-              int totalScore =
-                  _answers.values.fold(0, (sum, value) => sum + (value));
-              await _saveResults(totalScore); // Save questionnaire results
-              Navigator.push(
-                // ignore: use_build_context_synchronously
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      HasilKuisionerScreen(totalScore: totalScore),
+        }).toList(),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                int totalScore = _answers.values.fold(0, (sum, value) => sum + (value ));
+                _saveResults(totalScore);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HasilKuisionerScreen(totalScore: totalScore)),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 68, 63, 144),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: Text(
+                  "Submit",
+                  style: TextStyle(fontSize: 16),
                 ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 68, 63, 144),
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              ),
             ),
-            child: const Text('Kirim', style: TextStyle(color: Colors.white)),
           ),
         ),
       ],
@@ -284,7 +318,6 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? history = prefs.getStringList('kuisioner_history') ?? [];
 
-    // Create a string for each question and its corresponding answer
     StringBuffer results = StringBuffer();
     for (int i = 0; i < _currentQuestions.length; i++) {
       String question = _currentQuestions[i];
@@ -300,8 +333,14 @@ class _KuisionerScreenState extends State<KuisionerScreen> {
       results.write('$question: $answerText\n');
     }
 
-    // Save the score and detailed results
-    history.add('Score: $totalScore\n$results on ${DateTime.now()}');
+    String formattedDate = DateTime.now().toString();
+    history.add('Score: $totalScore\n$results on $formattedDate');
     await prefs.setStringList('kuisioner_history', history);
+
+    await FirebaseFirestore.instance.collection('kuisioner_history').add({
+      'score': totalScore,
+      'results': results.toString(),
+      'date': formattedDate,
+    });
   }
 }

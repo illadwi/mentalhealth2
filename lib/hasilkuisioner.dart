@@ -27,7 +27,8 @@ class HasilKuisionerScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Hasil Kuisioner'),
+        title: const Text('Hasil Kuisioner',
+            style: TextStyle(color: Color.fromARGB(255, 68, 63, 144))),
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Color.fromARGB(255, 68, 63, 144)),
       ),
@@ -49,13 +50,17 @@ class HasilKuisionerScreen extends StatelessWidget {
                   children: [
                     const Text(
                       'Hasil Kuesioner Depresi',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 68, 63, 144)),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Total Skor Anda: $totalScore',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 68, 63, 144)),
                     ),
                   ],
                 ),
@@ -84,6 +89,8 @@ class HasilKuisionerScreen extends StatelessWidget {
                 child: Text(
                   getDepressionLevelMessage(),
                   textAlign: TextAlign.center,
+                  style:
+                      const TextStyle(color: Color.fromARGB(255, 68, 63, 144)),
                 ),
               ),
               // Finish Button
@@ -93,15 +100,22 @@ class HasilKuisionerScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RiwayatKuisionerScreen()));
+                            builder: (context) =>
+                                const RiwayatKuisionerScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 68, 63, 144),
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10), // Ubah radius menjadi 4 atau nilai kecil lainnya
+                    ),
                   ),
-                  child: const Text('Selesai', style: TextStyle(color: Colors.white)),
+                  child: const Text('Selesai',
+                      style: TextStyle(color: Colors.white)),
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -119,19 +133,23 @@ class HasilKuisionerScreen extends StatelessWidget {
                   color: Color.fromARGB(255, 68, 63, 144),
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()));
                 },
               ),
               IconButton(
                 icon: const Icon(
                   Icons.settings,
                   size: 24,
-                  color: Color.fromARGB(255, 68, 63, 144),
+                  color: Color.fromARGB(43, 68, 63, 144),
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SettingScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingScreen()));
                 },
               ),
             ],
@@ -147,8 +165,10 @@ class HasilKuisionerScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label),
-          Text(range),
+          Text(label,
+              style: const TextStyle(color: Color.fromARGB(255, 68, 63, 144))),
+          Text(range,
+              style: const TextStyle(color: Color.fromARGB(255, 68, 63, 144))),
         ],
       ),
     );
@@ -156,7 +176,7 @@ class HasilKuisionerScreen extends StatelessWidget {
 
   Widget _buildDivider() {
     return const Divider(
-      color: Colors.black,
+      color: Color.fromARGB(43, 68, 63, 144),
       thickness: 1,
     );
   }

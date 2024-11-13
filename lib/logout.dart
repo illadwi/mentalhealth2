@@ -47,8 +47,16 @@ class _LogoutScreenState extends State<LogoutScreen> {
       body: Center(
         child: Container(
           decoration: BoxDecoration(
-            color: const Color.fromARGB(43, 68, 63, 144),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           padding: const EdgeInsets.all(32.0),
           width: 320,
@@ -60,14 +68,17 @@ class _LogoutScreenState extends State<LogoutScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 68, 63, 144),
                 ),
               ),
               const SizedBox(height: 16),
               Text(
                 'Hi ${username ?? "User"},\nApakah Anda yakin ingin keluar dari aplikasi?',
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 68, 63, 144),
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(height: 24),
               Row(
@@ -78,13 +89,12 @@ class _LogoutScreenState extends State<LogoutScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            // ignore: prefer_const_constructors
-                            builder: (context) => WelcomeScreen()),
+                            builder: (context) => const WelcomeScreen()),
                       );
                     },
                     style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(126, 68, 63, 144),
-                      foregroundColor: Colors.black,
+                      backgroundColor: const Color.fromARGB(255, 68, 63, 144),
+                      foregroundColor: Colors.white,
                       padding:
                           const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       shape: RoundedRectangleBorder(
@@ -92,7 +102,9 @@ class _LogoutScreenState extends State<LogoutScreen> {
                       ),
                     ),
                     child: const Text('Ya',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
                   ),
                   const SizedBox(width: 16),
                   TextButton(
@@ -105,7 +117,7 @@ class _LogoutScreenState extends State<LogoutScreen> {
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(43, 68, 63, 144),
-                      foregroundColor: Colors.black,
+                      foregroundColor: const Color.fromARGB(255, 68, 63, 144),
                       padding:
                           const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       shape: RoundedRectangleBorder(
